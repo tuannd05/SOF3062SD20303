@@ -16,6 +16,5 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-
       - name: Build and Test
         run: mvn clean test
