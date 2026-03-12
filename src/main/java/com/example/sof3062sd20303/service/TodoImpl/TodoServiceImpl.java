@@ -4,16 +4,17 @@ import com.example.sof3062sd20303.entity.Todo;
 import com.example.sof3062sd20303.repository.TodoRepository;
 import com.example.sof3062sd20303.service.TodoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+//được tiêm qua constructor
 @RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService {
-
+//    private: chỉ cho phép dùng biến đó bên trong class.
+//    final: biến đó chỉ được gán một lần, không thể đổi sang cái khác.
    private final TodoRepository todoRepository;
 
     @Override
