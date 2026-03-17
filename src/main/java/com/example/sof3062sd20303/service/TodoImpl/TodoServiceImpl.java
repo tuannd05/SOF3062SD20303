@@ -41,6 +41,7 @@ public class TodoServiceImpl implements TodoService {
                 .map(existing -> {
                     if (todo.getTitle() != null) existing.setTitle(todo.getTitle());
                     if (todo.getDescription() != null) existing.setDescription(todo.getDescription());
+//                    Luôn gán existing.completed = false -> value default
                     existing.setCompleted(todo.isCompleted());
                     return todoRepository.save(existing);
                 })

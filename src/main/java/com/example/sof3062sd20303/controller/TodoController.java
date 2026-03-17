@@ -3,6 +3,8 @@ package com.example.sof3062sd20303.controller;
 import com.example.sof3062sd20303.entity.Todo;
 import com.example.sof3062sd20303.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,35 +16,55 @@ import java.util.List;
 
 public class TodoController {
     private final TodoService todoService;
-//    api/todos/show
+//    @GetMapping: đọc dữ liệu (GET).
     @GetMapping
-    public List<Todo> getAllTodos() {
+    public ResponseEntity<List<Todo>> getAllTodos() {
 
-        return todoService.findAll();
+        List<Todo> todos = todoService.findAll();
+
+        //cac cach test trang thai
+//        return new ResponseEntity<>(todos, HttpStatus.OK);
+//        return ResponseEntity.ok(todos);
+//        return ResponseEntity.status(HttpStatus.OK).body(todos);
+
+        return ResponseEntity
+                .ok()
+                .header("Custom-Header","Custom-Value")
+                .body(todos);
     }
-//    api/todos/id
+
+//    @GetMapping: đọc dữ liệu (GET).
     @GetMapping("{id}")
-    public Todo getTodo(
+    public ResponseEntity<Todo> getTodo(
+            // lấy giá trị id của url
             @PathVariable("id") Long id
     ){
-        return todoService.findById(id);
+        Todo todo = todoService.findById(id);
+        return new ResponseEntity<>(todo, HttpStatus.OK);
     }
+
+//    @PostMapping: tạo mới (POST).
     @PostMapping
-    public Todo createTodo(@RequestBody Todo todo) {
-        return todoService.add(todo);
+    // lấy dữ liệu json để bind
+    public ResponseEntity<Todo> createTodo(@RequestBody Todo todo) {
+        Todo savedTodo = todoService.add(todo);
+        return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
     }
 
+//    @PutMapping: cập nhật toàn bộ theo id (PUT).
     @PutMapping("{id}")
-    public Todo updateTodo(
-            @PathVariable("id") Long id,
-            @RequestBody Todo todo
+    public ResponseEntity<Todo> updateTodo(
+            @RequestBody Todo todo,
+            @PathVariable("id") Long id
     ) {
-        todo.setId(id);
-        return todoService.add(todo);
+      Todo updatedTodo = todoService.update(todo, id);
+      return new ResponseEntity<>(updatedTodo,HttpStatus.OK);
     }
 
+//    @DeleteMapping: xóa theo id (DELETE).
     @DeleteMapping("{id}")
-    public void deleteTodo(@PathVariable("id") Long id) {
-        todoService.delete(id);
+    public ResponseEntity<Todo> deleteTodo(@PathVariable("id") Long id) {
+       Todo deletedTodo = todoService.delete(id);
+       return new ResponseEntity<>(deletedTodo, HttpStatus.OK);
     }
 }
