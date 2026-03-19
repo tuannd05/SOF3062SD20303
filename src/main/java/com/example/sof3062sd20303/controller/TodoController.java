@@ -22,7 +22,7 @@ public class TodoController {
 
         List<Todo> todos = todoService.findAll();
 
-        //cac cach test trang thai
+        //cac cach test trang thai build
 //        return new ResponseEntity<>(todos, HttpStatus.OK);
 //        return ResponseEntity.ok(todos);
 //        return ResponseEntity.status(HttpStatus.OK).body(todos);
