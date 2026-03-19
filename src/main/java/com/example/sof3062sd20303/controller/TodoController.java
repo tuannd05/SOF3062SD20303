@@ -2,6 +2,7 @@ package com.example.sof3062sd20303.controller;
 
 import com.example.sof3062sd20303.entity.Todo;
 import com.example.sof3062sd20303.service.TodoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +17,20 @@ import java.util.List;
 
 public class TodoController {
     private final TodoService todoService;
+
 //    @GetMapping: đọc dữ liệu (GET).
+
     @GetMapping
     public ResponseEntity<List<Todo>> getAllTodos() {
 
         List<Todo> todos = todoService.findAll();
 
         //cac cach test trang thai build
+
 //        return new ResponseEntity<>(todos, HttpStatus.OK);
+
 //        return ResponseEntity.ok(todos);
+
 //        return ResponseEntity.status(HttpStatus.OK).body(todos);
 
         return ResponseEntity
@@ -39,21 +45,26 @@ public class TodoController {
             // lấy giá trị id của url
             @PathVariable("id") Long id
     ){
+
         Todo todo = todoService.findById(id);
+
         return new ResponseEntity<>(todo, HttpStatus.OK);
     }
 
 //    @PostMapping: tạo mới (POST).
     @PostMapping
     // lấy dữ liệu json để bind
-    public ResponseEntity<Todo> createTodo(@RequestBody Todo todo) {
+    public ResponseEntity<Todo> createTodo(@Valid @RequestBody Todo todo) {
+
         Todo savedTodo = todoService.add(todo);
+
         return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
     }
 
 //    @PutMapping: cập nhật toàn bộ theo id (PUT).
     @PutMapping("{id}")
     public ResponseEntity<Todo> updateTodo(
+            @Valid
             @RequestBody Todo todo,
             @PathVariable("id") Long id
     ) {
