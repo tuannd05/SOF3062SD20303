@@ -25,7 +25,7 @@ public class TodoController {
 
         List<Todo> todos = todoService.findAll();
 
-        //cac cach test trang thai build
+//        cac cach test trang thai build
 
 //        return new ResponseEntity<>(todos, HttpStatus.OK);
 
@@ -44,8 +44,7 @@ public class TodoController {
     public ResponseEntity<Todo> getTodo(
             // lấy giá trị id của url
             @PathVariable("id") Long id
-    ){
-
+    ) {
         Todo todo = todoService.findById(id);
 
         return new ResponseEntity<>(todo, HttpStatus.OK);
@@ -54,8 +53,9 @@ public class TodoController {
 //    @PostMapping: tạo mới (POST).
     @PostMapping
     // lấy dữ liệu json để bind
-    public ResponseEntity<Todo> createTodo(@Valid @RequestBody Todo todo) {
-
+    public ResponseEntity<Todo> createTodo(
+            @Valid @RequestBody Todo todo
+    ) {
         Todo savedTodo = todoService.add(todo);
 
         return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
@@ -69,13 +69,17 @@ public class TodoController {
             @PathVariable("id") Long id
     ) {
       Todo updatedTodo = todoService.update(todo, id);
+
       return new ResponseEntity<>(updatedTodo,HttpStatus.OK);
     }
 
 //    @DeleteMapping: xóa theo id (DELETE).
     @DeleteMapping("{id}")
-    public ResponseEntity<Todo> deleteTodo(@PathVariable("id") Long id) {
+    public ResponseEntity<Todo> deleteTodo(
+            @PathVariable("id") Long id
+    ) {
        Todo deletedTodo = todoService.delete(id);
+
        return new ResponseEntity<>(deletedTodo, HttpStatus.OK);
     }
 }
