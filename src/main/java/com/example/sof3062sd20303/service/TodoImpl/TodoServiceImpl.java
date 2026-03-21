@@ -1,6 +1,7 @@
 package com.example.sof3062sd20303.service.TodoImpl;
 
 import com.example.sof3062sd20303.entity.Todo;
+import com.example.sof3062sd20303.exception.CustomResourceNotFoundException;
 import com.example.sof3062sd20303.repository.TodoRepository;
 import com.example.sof3062sd20303.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class TodoServiceImpl implements TodoService {
     public Todo findById(Long id) {
         return todoRepository
                 .findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new CustomResourceNotFoundException("Todo not found for this id: " + id));
     }
 
     @Override
