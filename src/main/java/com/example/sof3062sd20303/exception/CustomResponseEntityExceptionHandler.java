@@ -4,6 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,24 +16,32 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-
+// bắt lỗi chung
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<CustomErrorDetails> handleAllException(Exception ex, WebRequest request){
 
         CustomErrorDetails errorDetails = new CustomErrorDetails(LocalDateTime.now(),
-                ex.getMessage(), request.getDescription(false));
+                "Validate false", request.getDescription(false));
 
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
+// bắt lỗi tài nguyên ví dụ lấy id sai
     @ExceptionHandler(CustomResourceNotFoundException.class)
     public final ResponseEntity<CustomErrorDetails> handleResourceNotFoundException(Exception ex, WebRequest request) {
 
         CustomErrorDetails errorDetails = new CustomErrorDetails(LocalDateTime.now(),
-                ex.getMessage(), request.getDescription(false));
+                "id không tồn tại", request.getDescription(false));
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
+// bắt lỗi phân quyền
+    @ExceptionHandler(AccessDeniedException.class)
+    public final ResponseEntity<CustomErrorDetails> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+        CustomErrorDetails errorDetails = new CustomErrorDetails(LocalDateTime.now(),
+                "Access Denied: You can not have", request.getDescription(false));
+                return new ResponseEntity<>(errorDetails, HttpStatus.FORBIDDEN);
+    }
+
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
