@@ -19,7 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableMethodSecurity(prePostEnabled = true)
+// set cho tung controller khi gan role thi phai dung @PreAuthorize
+//@EnableMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class SpringSecurityConfig {
 
 private final UserDetailsService userDetailsService;
@@ -37,12 +38,12 @@ private final UserDetailsService userDetailsService;
                 .authorizeHttpRequests(authorize -> {
 
                       // cau hinh toan cuc cho phan quan tri
-//                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
-//                    authorize.requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN");
-//                    authorize.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN");
-//
+                    authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN");
+
                      //cho phep nhieu role truy cap vao
-//                    authorize.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER", "MANAGER");
+                    authorize.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER", "MANAGER");
 
                     authorize.anyRequest().authenticated();
                 })

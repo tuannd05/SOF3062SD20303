@@ -3,6 +3,7 @@ package com.example.sof3062sd20303.controller;
 import com.example.sof3062sd20303.dto.BookRequest;
 import com.example.sof3062sd20303.dto.BookResponse;
 import com.example.sof3062sd20303.service.BookService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -32,21 +33,22 @@ public class BookController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+//    @RolesAllowed("ADMIN")
     public ResponseEntity<BookResponse> add(@RequestBody BookRequest bookRequest) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.add(bookRequest));
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public ResponseEntity<BookResponse> update(@RequestBody BookRequest bookRequest, @PathVariable long id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(bookService.update(bookRequest, id));
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public ResponseEntity<Void> delete(@PathVariable long id) {
 
         bookService.delete(id);
