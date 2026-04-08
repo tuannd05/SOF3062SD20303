@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 // set cho tung controller khi gan role thi phai dung @PreAuthorize
 //@EnableMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
